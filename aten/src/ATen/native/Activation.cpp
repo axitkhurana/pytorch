@@ -136,6 +136,9 @@ Tensor elu_backward(
 }
 
 Tensor hardswish(const Tensor& self) {
+  #if defined(C10_MOBILE)
+  return xnnpack::hardswish(self);
+  #endif
   Tensor result;
   auto iter = TensorIterator::unary_op(result, self);
   hardswish_stub(iter.device_type(), iter);
