@@ -73,6 +73,8 @@ Tensor qnnpack_tanh(Tensor input) {
   TORCH_INTERNAL_ASSERT(
     runStatus == pytorch_qnnp_status_success,
     "failed to run QNNPACK TanH operator");
+  pytorch_qnnp_delete_operator(tanh_op);
+
   return qy;
 }
 #endif  // USE_PYTORCH_QNNPACK
