@@ -278,6 +278,13 @@ class TestNNAPI(TestCase):
 
         self.check(MultiModel(), [torch.tensor([1.0, 2.0]), torch.tensor([1.0, 3.0])])
 
+    def test_size(self):
+        class Size(torch.nn.Module):
+            def forward(self, arg):
+                return arg.reshape((arg.size(0), -1))
+
+        self.check(Size(), torch.tensor([1.0, 2.0]))
+
 
 if __name__ == '__main__':
     run_tests()
