@@ -5,7 +5,10 @@ if((NOT BUILD_CAFFE2) OR (INTERN_BUILD_MOBILE AND NOT BUILD_CAFFE2_MOBILE))
   )
 
   if(USE_PTHREADPOOL AND NOT USE_INTERNAL_PTHREADPOOL_IMPL)
-    list(APPEND Caffe2_CPU_SRCS utils/threadpool/pthreadpool-cpp.cc)
+    list(APPEND Caffe2_CPU_SRCS
+      utils/threadpool/pthreadpool-cpp.cc
+      utils/threadpool/thread_pool_guard.cpp
+    )
   endif()
 
   if(NOT BUILD_CAFFE2)
@@ -37,7 +40,9 @@ list(APPEND Caffe2_CPU_SRCS
 
 if(USE_PTHREADPOOL)
   list(APPEND Caffe2_CPU_SRCS
-    utils/threadpool/pthreadpool-cpp.cc)
+    utils/threadpool/pthreadpool-cpp.cc
+    utils/threadpool/thread_pool_guard.cpp
+  )
   if(USE_INTERNAL_PTHREADPOOL_IMPL)
     list(APPEND Caffe2_CPU_SRCS
       utils/threadpool/pthreadpool.cc
@@ -71,6 +76,12 @@ set(Caffe2_CPU_TEST_SRCS ${Caffe2_CPU_TEST_SRCS}
         utils/smart_tensor_printer_test.cc
         utils/cast_test.cc
         )
+
+if(USE_PTHREADPOOL)
+  list(APPEND Caffe2_CPU_TEST_SRCS
+    utils/threadpool/test_thread_pool_guard.cpp
+  )
+endif()
 
 set(Caffe2_GPU_TEST_SRCS ${Caffe2_GPU_TEST_SRCS}
         utils/math_gpu_test.cc
